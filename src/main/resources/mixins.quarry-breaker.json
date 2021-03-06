@@ -1,7 +1,7 @@
 {
   "required": true,
   "package": "net.earthcomputer.quarrybreaker.mixin",
-  "refmap": "mixins.connect_to_1_12_x.refmap.json",
+  "refmap": "mixins.quarrybreaker.refmap.json",
   "minVersion": "0.7",
   "client": [
     "MixinEntityPlayerSP",

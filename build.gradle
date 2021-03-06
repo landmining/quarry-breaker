@@ -34,6 +34,20 @@ minecraft {
     runDir = "run"
 }
 
+litemod {
+    json {
+        name = "Quarry Breaker"
+        mcversion = "1.12.2"
+        mixinConfigs += "mixins.quarry-breaker.json"
+    }
+}
+
+sourceSets {
+    main {
+        ext.refMap = "mixins.quarrybreaker.refmap.json"
+    }
+}
+
 mixin {
     defaultObfuscationEnv notch
 }

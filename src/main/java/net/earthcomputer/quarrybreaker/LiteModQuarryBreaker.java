@@ -80,6 +80,13 @@ public class LiteModQuarryBreaker implements LiteMod, PostRenderListener {
         switch (args[0]) {
             case "add":
             case "remove": {
+                if (args.length == 2 && "remove".equals(args[0]) && "all".equals(args[1])) {
+                    trackingPositions.clear();
+                    blockWarningCache.clear();
+                    player.sendMessage(new TextComponentString("Removed all tracking positions"));
+                    return;
+                }
+
                 if (args.length < 4) {
                     player.sendMessage(new TextComponentString(String.format("%s/quarrybreaker <%s> <x> <y> <z>", TextFormatting.RED, args[0])));
                     return;
