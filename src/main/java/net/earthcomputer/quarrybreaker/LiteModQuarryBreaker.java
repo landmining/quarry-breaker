@@ -28,6 +28,7 @@ public class LiteModQuarryBreaker implements LiteMod, PostRenderListener {
     private static int hashSize = 128;
     private static final Set<BlockPos> trackingPositions = new HashSet<>();
     private static final Map<ChunkPos, List<Pair<BlockPos, BlockWarningLevel>>> blockWarningCache = new HashMap<>();
+    private static boolean enabled = true;
 
 
     @Override
@@ -78,6 +79,16 @@ public class LiteModQuarryBreaker implements LiteMod, PostRenderListener {
         }
 
         switch (args[0]) {
+            case "enable": {
+                enabled = true;
+                player.sendMessage(new TextComponentString("Enabled rendering"));
+                return;
+            }
+            case "disable": {
+                enabled = false;
+                player.sendMessage(new TextComponentString("Disabled rendering"));
+                return;
+            }
             case "add":
             case "remove": {
                 if (args.length == 2 && "remove".equals(args[0]) && "all".equals(args[1])) {
@@ -149,7 +160,7 @@ public class LiteModQuarryBreaker implements LiteMod, PostRenderListener {
 
     public static List<String> tabCompleteQuarryBreakerCommand(String[] args, BlockPos targetBlockPos) {
         if (args.length == 1) {
-            return CommandBase.getListOfStringsMatchingLastWord(args, "add", "remove", "hashsize");
+            return CommandBase.getListOfStringsMatchingLastWord(args, "add", "remove", "hashsize", "enable", "disable");
         } else if (args.length >= 2 && args.length <= 4) {
             if (("add".equals(args[0]) || "remove".equals(args[0])) && targetBlockPos != null) {
                 return CommandBase.getTabCompletionCoordinate(args, 1, targetBlockPos);
@@ -165,6 +176,10 @@ public class LiteModQuarryBreaker implements LiteMod, PostRenderListener {
 
     @Override
     public void onPostRender(float partialTicks) {
+        if (!enabled) {
+            return;
+        }
+
         Entity viewEntity = Minecraft.getMinecraft().getRenderViewEntity();
         if (viewEntity == null) {
             return;
